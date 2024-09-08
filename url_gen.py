@@ -4,8 +4,8 @@ import time
 
 x1 = 4454509
 y1 = 3434918
-# x2 = 4457210
-x2 = 4454529
+x2 = 4457210
+# x2 = 4454529
 y2 = 3429017
 
 url = 'https://api.open-elevation.com/api/v1/lookup'
@@ -32,7 +32,7 @@ for x in range(x1, x2):
         except:
             time.sleep(10000)
             fetchData()
-        
+    fetchData()
 
 with open('data.json', 'w+') as f:
     json.dump(outcome, f)
