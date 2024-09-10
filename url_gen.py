@@ -2,11 +2,11 @@ import json
 import requests
 import time
 
-x1 = 4454509
-y1 = 3434918
-x2 = 4457210
+x1 = 445450
+y1 = 343491
+x2 = 445721
 # x2 = 4454529
-y2 = 3429017
+y2 = 342901
 
 url = 'https://api.open-elevation.com/api/v1/lookup'
 
@@ -18,23 +18,22 @@ for x in range(x1, x2):
     chunk = { 'locations': []}
     for y in range(y1, y2, -1):
         obj = {
-            "latitude": x / 100000,
-			"longitude": y / 100000
+            "latitude": x / 10000,
+			"longitude": y / 10000
         }
         chunk["locations"].append(obj)
-        print(obj)
 
     def fetchData():
         try:
-            results = requests.post(url, json = chunk).json()['results']
-            results = list(map((lambda obj: obj['elevation']), results))
-            outcome.append(results)
+            with open('data.json', 'a') as f:
+                results = requests.post(url, json = chunk).json()['results']
+                results = list(map((lambda obj: obj['elevation']), results))
+                f.write(str(results) + "\n")
+            print(">>> LAP APPENDED")
         except:
-            time.sleep(10000)
+            print(">>> REQUEST FAILED, RETRYING")
+            time.sleep(1)
             fetchData()
     fetchData()
-
-with open('data.json', 'w+') as f:
-    json.dump(outcome, f)
 
 print('>>> FINISHED')
